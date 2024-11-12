@@ -247,25 +247,28 @@
     </div>
 
     <script>
-        function zoomIn(event) {
+        // 定义一个函数 `toggleZoom`，用于切换二维码图片的放大/恢复状态
+        function toggleZoom(event) { 
+            // 阻止事件的默认行为（例如链接跳转）
             event.preventDefault();
-            const qrcode = event.currentTarget;
-            if (qrcode.classList.contains('zoomed')) {
-                qrcode.classList.remove('zoomed');
-            } else {
-                qrcode.classList.add('zoomed');
-            }
+            
+            // 切换当前目标元素（即被点击或鼠标悬停的二维码图片）的 'zoomed' 类
+            // 如果元素已经包含 'zoomed' 类，则移除它；否则，添加它
+            event.currentTarget.classList.toggle('zoomed');
         }
 
+        // 定义一个函数 `addZoomListeners`，用于为所有二维码图片添加事件监听器
         function addZoomListeners() {
-            const qrCodes = document.querySelectorAll('.qrcode-item img');
-            qrCodes.forEach(qrcode => {
-                qrcode.addEventListener('click', zoomIn);
-                qrcode.addEventListener('mouseover', zoomIn);
-                qrcode.addEventListener('mouseout', zoomIn);
+            // 使用 `querySelectorAll` 方法选择所有具有 `.qrcode-item img` 类的选择器的元素
+            document.querySelectorAll('.qrcode-item img').forEach(img => {
+                // 为每种事件类型（点击、鼠标悬停、鼠标离开）添加事件监听器
+                ['click', 'mouseover', 'mouseout'].forEach(eventType => {
+                    img.addEventListener(eventType, toggleZoom);
+                });
             });
         }
 
+        // 当页面加载完成后，执行 `addZoomListeners` 函数，为二维码图片添加事件监听
         window.onload = addZoomListeners;
     </script>
 </body>
